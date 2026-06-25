@@ -1,6 +1,6 @@
-<!-- Auto-generated — 2026-06-25 19:19:42 IST -->
+<!-- Auto-generated — 2026-06-25 19:33:49 IST -->
 
-**Last updated:** 2026-06-25 19:19:42 IST
+**Last updated:** 2026-06-25 19:33:49 IST
 
 ## 📊 Market Indexes
 
@@ -19,6 +19,7 @@
 <tr><th>Symbol</th><th>Time (IST)</th><th>Close</th><th>Volume</th><th>RSI(14)</th><th>EMA20</th><th>MACD</th><th>ATR</th><th>ADX</th><th>Signal</th></tr>
 <tr><td><b>NIFTY_FUT</b></td><td>2026-06-25 09:59</td><td>24105.00</td><td>17,550</td><td>50.92</td><td>24102.90</td><td>-1.22</td><td>11.43</td><td>10.22</td><td>🟡 HOLD</td></tr>
 <tr><td><b>BANKNIFTY_FUT</b></td><td>2026-06-25 09:59</td><td>58255.00</td><td>3,030</td><td>52.46</td><td>58250.52</td><td>6.25</td><td>23.23</td><td>8.93</td><td>🟡 HOLD</td></tr>
+<tr><td><b>FINNIFTY_FUT</b></td><td>2026-06-25 09:59</td><td>26806.20</td><td>120</td><td>41.98</td><td>26827.62</td><td>-26.82</td><td>16.99</td><td>26.10</td><td>🟡 HOLD</td></tr>
 </table>
 
 ---
