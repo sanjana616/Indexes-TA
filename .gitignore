@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+.history/
+.env
+*.log
+data/market_data.db
+data/option_chain.db
