@@ -57,15 +57,15 @@ def _next_thursday(ref: date) -> date:
 
 
 def _get_expiries_for_symbol(symbol: str) -> list:
-    """Return expiry date list using nselib, capped at 25-Aug-2026."""
+    """Return next 4 upcoming expiry dates (today's expiry included, past ones excluded)."""
     from src.option_chain.nse_scraper import get_expiry_dates
-    from datetime import datetime
-    cutoff = datetime(2026, 8, 25)
+    today = datetime.now(IST).date()
     expiries = get_expiry_dates(symbol)
-    return [
+    upcoming = [
         e for e in expiries
-        if datetime.strptime(e, "%d-%b-%Y") <= cutoff
+        if datetime.strptime(e, "%d-%b-%Y").date() >= today
     ]
+    return upcoming[:4]
 
 
 # ── Routes ───────────────────────────────────────────────────────────────────
