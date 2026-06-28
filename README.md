@@ -1,6 +1,6 @@
-<!-- Auto-generated — 2026-06-28 23:48:28 IST -->
+<!-- Auto-generated — 2026-06-29 00:03:26 IST -->
 
-**Last updated:** 2026-06-28 23:48:28 IST
+**Last updated:** 2026-06-29 00:03:26 IST
 
 ## 📊 Market Indexes
 
