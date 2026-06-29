@@ -1,6 +1,6 @@
-<!-- Auto-generated — 2026-06-29 12:03:33 IST -->
+<!-- Auto-generated — 2026-06-29 12:18:18 IST -->
 
-**Last updated:** 2026-06-29 12:03:33 IST
+**Last updated:** 2026-06-29 12:18:18 IST
 
 ## 📊 Market Indexes
 
@@ -9,8 +9,8 @@
 <tr><td><b>NIFTY50</b></td><td>2026-06-25 15:29</td><td>24052.80</td><td>1,226,623</td><td>47.04</td><td>24053.36</td><td>-6.55</td><td>10.61</td><td>29.11</td><td>🟡 HOLD</td></tr>
 <tr><td><b>BANKNIFTY</b></td><td>2026-06-25 15:29</td><td>58187.30</td><td>1,237,000</td><td>48.45</td><td>58192.27</td><td>0.32</td><td>32.31</td><td>19.24</td><td>🟡 HOLD</td></tr>
 <tr><td><b>SENSEX</b></td><td>2026-06-25 15:29</td><td>77084.94</td><td>140,531</td><td>46.04</td><td>77098.84</td><td>-17.45</td><td>51.60</td><td>25.13</td><td>🟡 HOLD</td></tr>
-<tr><td><b>MIDCAPNIFTY</b></td><td>2026-06-29 11:57</td><td>17507.95</td><td>1,055</td><td>42.74</td><td>17511.24</td><td>-4.68</td><td>6.09</td><td>20.36</td><td>🟡 HOLD</td></tr>
-<tr><td><b>FINNIFTY</b></td><td>2026-06-29 12:00</td><td>26706.30</td><td>124</td><td>49.29</td><td>26702.58</td><td>-8.35</td><td>13.04</td><td>26.19</td><td>🟡 HOLD</td></tr>
+<tr><td><b>MIDCAPNIFTY</b></td><td>2026-06-29 12:14</td><td>17478.75</td><td>3,760</td><td>27.89</td><td>17494.24</td><td>-7.95</td><td>6.41</td><td>33.85</td><td>🔴 SELL</td></tr>
+<tr><td><b>FINNIFTY</b></td><td>2026-06-29 12:16</td><td>26636.35</td><td>2</td><td>23.43</td><td>26683.29</td><td>-12.64</td><td>13.86</td><td>27.06</td><td>🔴 SELL</td></tr>
 </table>
 
 ## 📈 Index Futures
@@ -384,7 +384,7 @@
 <tr><td>65,580</td><td>3,732</td><td>18.00</td><td>0.50</td><td>-</td><td><b>69000</b></td><td>-</td><td>10525.25</td><td>18.00</td><td>18</td><td>2,310</td></tr>
 </table>
 
-## 🔗 FINNIFTY Option Chain &nbsp; `Expiry: 30-Jun-2026` &nbsp; `Spot: 26710.55`
+## 🔗 FINNIFTY Option Chain &nbsp; `Expiry: 30-Jun-2026` &nbsp; `Spot: 26643.05`
 
 <table>
 <tr><th>CE OI</th><th>CE Vol</th><th>CE IV</th><th>CE LTP</th><th>CE Δ</th><th>Strike</th><th>PE Δ</th><th>PE LTP</th><th>PE IV</th><th>PE Vol</th><th>PE OI</th></tr>
@@ -486,8 +486,8 @@
 <tr><td>44,280</td><td>438</td><td>18.00</td><td>356.35</td><td>-</td><td><b>26500</b></td><td>-</td><td>48.70</td><td>18.00</td><td>4,161</td><td>75,360</td></tr>
 <tr><td>3,960</td><td>22</td><td>18.00</td><td>309.25</td><td>-</td><td><b>26550</b></td><td>-</td><td>59.05</td><td>18.00</td><td>612</td><td>7,680</td></tr>
 <tr><td>10,740</td><td>619</td><td>18.00</td><td>273.15</td><td>-</td><td><b>26600</b></td><td>-</td><td>73.00</td><td>18.00</td><td>3,358</td><td>41,580</td></tr>
-<tr><td>2,640</td><td>95</td><td>18.00</td><td>239.20</td><td>-</td><td><b>26650</b></td><td>-</td><td>82.85</td><td>18.00</td><td>1,175</td><td>12,540</td></tr>
-<tr style="background:#fffde7;font-weight:bold;"><td>64,440</td><td>3,278</td><td>18.00</td><td>199.50</td><td>-</td><td><b>26700</b>  ← ATM</td><td>-</td><td>100.30</td><td>18.00</td><td>5,846</td><td>78,060</td></tr>
+<tr style="background:#fffde7;font-weight:bold;"><td>2,640</td><td>95</td><td>18.00</td><td>239.20</td><td>-</td><td><b>26650</b>  ← ATM</td><td>-</td><td>82.85</td><td>18.00</td><td>1,175</td><td>12,540</td></tr>
+<tr><td>64,440</td><td>3,278</td><td>18.00</td><td>199.50</td><td>-</td><td><b>26700</b></td><td>-</td><td>100.30</td><td>18.00</td><td>5,846</td><td>78,060</td></tr>
 <tr><td>8,040</td><td>428</td><td>18.00</td><td>168.55</td><td>-</td><td><b>26750</b></td><td>-</td><td>119.20</td><td>18.00</td><td>811</td><td>14,520</td></tr>
 <tr><td>102,780</td><td>6,788</td><td>18.00</td><td>143.20</td><td>-</td><td><b>26800</b></td><td>-</td><td>142.90</td><td>18.00</td><td>6,117</td><td>47,460</td></tr>
 <tr><td>12,420</td><td>1,366</td><td>18.00</td><td>121.85</td><td>-</td><td><b>26850</b></td><td>-</td><td>167.60</td><td>18.00</td><td>983</td><td>4,920</td></tr>
@@ -545,7 +545,7 @@
 <tr><td>5,940</td><td>5</td><td>18.00</td><td>0.70</td><td>-</td><td><b>30000</b></td><td>-</td><td>5953.20</td><td>18.00</td><td>0</td><td>0</td></tr>
 </table>
 
-## 🔗 MIDCAPNIFTY Option Chain &nbsp; `Expiry: 30-Jun-2026` &nbsp; `Spot: 17505.15`
+## 🔗 MIDCAPNIFTY Option Chain &nbsp; `Expiry: 30-Jun-2026` &nbsp; `Spot: 17469.80`
 
 <table>
 <tr><th>CE OI</th><th>CE Vol</th><th>CE IV</th><th>CE LTP</th><th>CE Δ</th><th>Strike</th><th>PE Δ</th><th>PE LTP</th><th>PE IV</th><th>PE Vol</th><th>PE OI</th></tr>
