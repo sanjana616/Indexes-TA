@@ -1,6 +1,6 @@
-<!-- Auto-generated — 2026-06-29 10:03:47 IST -->
+<!-- Auto-generated — 2026-06-29 10:18:12 IST -->
 
-**Last updated:** 2026-06-29 10:03:47 IST
+**Last updated:** 2026-06-29 10:18:12 IST
 
 ## 📊 Market Indexes
 
@@ -9,8 +9,8 @@
 <tr><td><b>NIFTY50</b></td><td>2026-06-25 15:29</td><td>24052.80</td><td>1,226,623</td><td>47.04</td><td>24053.36</td><td>-6.55</td><td>10.61</td><td>29.11</td><td>🟡 HOLD</td></tr>
 <tr><td><b>BANKNIFTY</b></td><td>2026-06-25 15:29</td><td>58187.30</td><td>1,237,000</td><td>48.45</td><td>58192.27</td><td>0.32</td><td>32.31</td><td>19.24</td><td>🟡 HOLD</td></tr>
 <tr><td><b>SENSEX</b></td><td>2026-06-25 15:29</td><td>77084.94</td><td>140,531</td><td>46.04</td><td>77098.84</td><td>-17.45</td><td>51.60</td><td>25.13</td><td>🟡 HOLD</td></tr>
-<tr><td><b>MIDCAPNIFTY</b></td><td>2026-06-29 10:00</td><td>17576.65</td><td>1,185</td><td>44.32</td><td>17583.70</td><td>-4.20</td><td>10.14</td><td>9.46</td><td>🟡 HOLD</td></tr>
-<tr><td><b>FINNIFTY</b></td><td>2026-06-29 09:59</td><td>26744.65</td><td>49</td><td>41.45</td><td>26763.41</td><td>-8.24</td><td>17.31</td><td>18.13</td><td>🟡 HOLD</td></tr>
+<tr><td><b>MIDCAPNIFTY</b></td><td>2026-06-29 10:14</td><td>17571.95</td><td>909</td><td>43.29</td><td>17579.17</td><td>-1.85</td><td>8.20</td><td>9.12</td><td>🟡 HOLD</td></tr>
+<tr><td><b>FINNIFTY</b></td><td>2026-06-29 10:15</td><td>26718.25</td><td>6</td><td>39.81</td><td>26743.72</td><td>-7.92</td><td>17.45</td><td>14.35</td><td>🟡 HOLD</td></tr>
 </table>
 
 ## 📈 Index Futures
@@ -384,7 +384,7 @@
 <tr><td>65,580</td><td>3,732</td><td>18.00</td><td>0.50</td><td>-</td><td><b>69000</b></td><td>-</td><td>10525.25</td><td>18.00</td><td>18</td><td>2,310</td></tr>
 </table>
 
-## 🔗 FINNIFTY Option Chain &nbsp; `Expiry: 30-Jun-2026` &nbsp; `Spot: 26735.55`
+## 🔗 FINNIFTY Option Chain &nbsp; `Expiry: 30-Jun-2026` &nbsp; `Spot: 26729.40`
 
 <table>
 <tr><th>CE OI</th><th>CE Vol</th><th>CE IV</th><th>CE LTP</th><th>CE Δ</th><th>Strike</th><th>PE Δ</th><th>PE LTP</th><th>PE IV</th><th>PE Vol</th><th>PE OI</th></tr>
@@ -545,7 +545,7 @@
 <tr><td>5,940</td><td>5</td><td>18.00</td><td>0.70</td><td>-</td><td><b>30000</b></td><td>-</td><td>5953.20</td><td>18.00</td><td>0</td><td>0</td></tr>
 </table>
 
-## 🔗 MIDCAPNIFTY Option Chain &nbsp; `Expiry: 30-Jun-2026` &nbsp; `Spot: 17576.45`
+## 🔗 MIDCAPNIFTY Option Chain &nbsp; `Expiry: 30-Jun-2026` &nbsp; `Spot: 17568.25`
 
 <table>
 <tr><th>CE OI</th><th>CE Vol</th><th>CE IV</th><th>CE LTP</th><th>CE Δ</th><th>Strike</th><th>PE Δ</th><th>PE LTP</th><th>PE IV</th><th>PE Vol</th><th>PE OI</th></tr>
