@@ -1,4 +1,4 @@
-"""fetch_data.py — Fetch OHLCV for indexes (TV + yfinance fallback) and futures (TV only)."""
+"""fetch_data.py — Fetch OHLCV for indexes (TV + yfinance fallback)."""
 import logging
 import time
 from typing import Dict, List
@@ -66,27 +66,14 @@ def fetch_index(tv: TvDatafeed, cfg: Dict) -> pd.DataFrame:
     return df
 
 
-def fetch_future(tv: TvDatafeed, cfg: Dict) -> pd.DataFrame:
-    """Fetch futures candles from TradingView (no yfinance fallback)."""
-    label = cfg["label"]
-    df    = fetch_candles(tv, cfg["tv_symbol"], cfg["exchange"], label)
-    if df.empty:
-        logger.warning("[%s] No futures data available", label)
-    return df
-
-
 def fetch_all(
     tv: TvDatafeed,
     index_cfgs: List[Dict],
-    futures_cfgs: List[Dict],
     sleep: float = 2.0,
 ) -> Dict[str, pd.DataFrame]:
-    """Fetch all indexes and futures; returns {label: DataFrame}."""
+    """Fetch all indexes; returns {label: DataFrame}."""
     results: Dict[str, pd.DataFrame] = {}
     for cfg in index_cfgs:
         results[cfg["label"]] = fetch_index(tv, cfg)
-        time.sleep(sleep)
-    for cfg in futures_cfgs:
-        results[cfg["label"]] = fetch_future(tv, cfg)
         time.sleep(sleep)
     return results

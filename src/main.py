@@ -54,10 +54,9 @@ def _load_symbols():
     with open(SYMBOLS_FILE, "r", encoding="utf-8") as f:
         data = json.load(f)
     indexes = data.get("Indexes", [])
-    futures = data.get("Futures", [])
     if not indexes:
         raise ValueError("'Indexes' list is empty in symbols.json")
-    return indexes, futures
+    return indexes
 
 
 def _fetch_option_chains(index_cfgs) -> dict:
@@ -113,17 +112,17 @@ def _fetch_option_chains(index_cfgs) -> dict:
 def main() -> None:
     logger.info("=== stock-data-cornjob starting ===")
 
-    index_cfgs, futures_cfgs = _load_symbols()
+    index_cfgs = _load_symbols()
 
     # 1. Init DBs
     init_db(MARKET_DB, OPTION_DB)
 
     # 2. Fetch OHLCV candles
     tv   = get_tv()
-    data = fetch_all(tv, index_cfgs, futures_cfgs)
+    data = fetch_all(tv, index_cfgs)
 
     # 3. Store latest candle per symbol
-    for cfg in index_cfgs + futures_cfgs:
+    for cfg in index_cfgs:
         label = cfg["label"]
         df    = data.get(label)
         if df is not None and not df.empty:
@@ -150,7 +149,6 @@ def main() -> None:
         README_FILE,
         MARKET_DB,
         [c["label"] for c in index_cfgs],
-        [c["label"] for c in futures_cfgs],
         option_data=readme_option,
     )
 

@@ -5,10 +5,5 @@
         {"label": "SENSEX",      "tv_symbol": "SENSEX",     "exchange": "BSE", "yf_ticker": "^BSESN",               "vol_etf": "SENSEXETF.NS"},
         {"label": "MIDCAPNIFTY", "tv_symbol": "MIDCPNIFTY", "exchange": "NSE", "yf_ticker": "^NSEMDCP50",           "vol_etf": "MIDSELIETF.NS"},
         {"label": "FINNIFTY",    "tv_symbol": "FINNIFTY",   "exchange": "NSE", "yf_ticker": "NIFTY_FIN_SERVICE.NS", "vol_etf": "NIF100BEES.NS"}
-    ],
-    "Futures": [
-        {"label": "NIFTY_FUT",     "tv_symbol": "NIFTY1!",     "exchange": "NSE"},
-        {"label": "BANKNIFTY_FUT", "tv_symbol": "BANKNIFTY1!", "exchange": "NSE"},
-        {"label": "FINNIFTY_FUT",  "tv_symbol": "FINNIFTY1!",  "exchange": "NSE"}
     ]
 }

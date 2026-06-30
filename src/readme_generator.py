@@ -136,7 +136,6 @@ def update_readme(
     readme_path: str,
     market_db: str,
     index_symbols: List[str],
-    futures_symbols: List[str],
     option_data: Optional[Dict[str, tuple]] = None,
 ) -> None:
     """
@@ -153,7 +152,6 @@ def update_readme(
         f"<!-- Auto-generated — {ts} -->\n\n"
         f"**Last updated:** {ts}\n\n"
         + _market_table("📊 Market Indexes", build_rows(index_symbols, market_db))
-        + _market_table("📈 Index Futures",  build_rows(futures_symbols, market_db))
     )
 
     if option_data:
