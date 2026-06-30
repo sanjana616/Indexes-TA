@@ -270,7 +270,7 @@ def insert_option_data(db: str, symbol: str, df: pd.DataFrame, spot: float = 0.0
             df[col] = None
 
     sql = (
-        f"INSERT OR IGNORE INTO {table} ({', '.join(_OC_COLS)}) "
+        f"INSERT OR REPLACE INTO {table} ({', '.join(_OC_COLS)}) "
         f"VALUES ({', '.join(['?'] * len(_OC_COLS))})"
     )
     with sqlite3.connect(db) as conn:

@@ -135,7 +135,11 @@ def api_option_chain():
 
     # ── store into DB ─────────────────────────────────────────────────────────
     try:
-        insert_option_data(OPTION_DB, symbol, df, spot)
+        now_ist = datetime.now(IST)
+        df_store = df.copy()
+        df_store["symbol"]   = _DISPLAY_NAME.get(symbol, symbol)
+        df_store["datetime"] = now_ist.strftime("%Y-%m-%d %H:%M")
+        insert_option_data(OPTION_DB, df_store)
     except Exception:
         pass  # don't fail the response if storage fails
 
