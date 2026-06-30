@@ -1,6 +1,7 @@
 """fetch_data.py — Fetch OHLCV for indexes (TV + yfinance fallback)."""
 import logging
 import time
+from datetime import datetime
 from typing import Dict, List
 
 import pandas as pd
@@ -48,6 +49,28 @@ def _yf_fallback(label: str, yf_ticker: str, vol_etf: str = "") -> pd.DataFrame:
         return pd.DataFrame()
 
 
+def _is_stale(df: pd.DataFrame, max_minutes: int = 30) -> bool:
+    """
+    Return True if the latest candle is older than max_minutes during market hours.
+    Only checked on weekdays between 09:15 and 15:45 IST.
+    """
+    try:
+        import pytz
+        IST = pytz.timezone("Asia/Kolkata")
+        now_ist = datetime.now(IST).replace(tzinfo=None)
+        hhmm = now_ist.strftime("%H:%M")
+        # Only flag stale during market hours — outside hours old data is expected
+        if not (now_ist.weekday() < 5 and "09:15" <= hhmm <= "15:45"):
+            return False
+        latest = pd.to_datetime(df["datetime"].max())
+        if hasattr(latest, "tzinfo") and latest.tzinfo is not None:
+            latest = latest.astimezone(IST).replace(tzinfo=None)
+        age = (now_ist - latest).total_seconds() / 60
+        return age > max_minutes
+    except Exception:
+        return False
+
+
 def fetch_index(tv: TvDatafeed, cfg: Dict) -> pd.DataFrame:
     label = cfg["label"]
 
@@ -55,6 +78,12 @@ def fetch_index(tv: TvDatafeed, cfg: Dict) -> pd.DataFrame:
 
     if not df.empty:
         logger.info("[%s] Latest candle = %s", label, df["datetime"].max())
+        if _is_stale(df):
+            logger.warning(
+                "[%s] TV data is stale (latest=%s) — discarding and falling back to yfinance",
+                label, df["datetime"].max(),
+            )
+            df = pd.DataFrame()
 
     if df.empty and cfg.get("yf_ticker"):
         logger.info("[%s] Falling back to yfinance", label)
