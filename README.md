@@ -13,15 +13,6 @@
 <tr><td><b>FINNIFTY</b></td><td>2026-06-30 10:01</td><td>26588.65</td><td>85</td><td>56.42</td><td>26572.09</td><td>0.34</td><td>16.50</td><td>22.37</td><td>🟢 BUY</td></tr>
 </table>
 
-## 📈 Index Futures
-
-<table>
-<tr><th>Symbol</th><th>Time (IST)</th><th>Close</th><th>Volume</th><th>RSI(14)</th><th>EMA20</th><th>MACD</th><th>ATR</th><th>ADX</th><th>Signal</th></tr>
-<tr><td><b>NIFTY_FUT</b></td><td>2026-06-29 09:59</td><td>23978.60</td><td>10,725</td><td>52.79</td><td>23975.02</td><td>1.88</td><td>12.36</td><td>11.88</td><td>🟡 HOLD</td></tr>
-<tr><td><b>BANKNIFTY_FUT</b></td><td>2026-06-29 09:59</td><td>57851.00</td><td>4,470</td><td>54.93</td><td>57827.76</td><td>12.37</td><td>38.12</td><td>23.54</td><td>🟡 HOLD</td></tr>
-<tr><td><b>FINNIFTY_FUT</b></td><td>2026-06-29 09:58</td><td>26683.00</td><td>240</td><td>58.32</td><td>26641.00</td><td>-2.96</td><td>21.22</td><td>11.30</td><td>🟡 HOLD</td></tr>
-</table>
-
 ---
 
 # 📋 Option Chain

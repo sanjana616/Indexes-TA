@@ -21,7 +21,7 @@ _fi    = lambda x: f"{int(x):,}" if pd.notna(x) and x is not None else "-"
 # ---------------------------------------------------------------------------
 
 def build_rows(symbols: List[str], db: str) -> str:
-    """Build HTML <tr> rows for market indexes / futures."""
+    """Build HTML <tr> rows for market indexes."""
     from src.database import latest_row
 
     html = ""
