@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 
 # ── Configuration ─────────────────────────────────────────────────────────────
 DEFAULT_BARS  = 500   # ~1.3 trading days; reduces TradingView load vs old 1875
-RETRIES       = 5
-RETRY_DELAY   = 5     # seconds between retries
+RETRIES       = 2     # keep low — TV timeouts are ~5s each; yfinance fallback handles the rest
+RETRY_DELAY   = 2     # seconds between retries
 STALE_MINUTES = 10    # warn if latest candle is older than this
 
 _IST = pytz.timezone("Asia/Kolkata")

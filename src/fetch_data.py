@@ -69,7 +69,7 @@ def fetch_index(tv: TvDatafeed, cfg: Dict) -> pd.DataFrame:
 def fetch_all(
     tv: TvDatafeed,
     index_cfgs: List[Dict],
-    sleep: float = 2.0,
+    sleep: float = 0.5,
 ) -> Dict[str, pd.DataFrame]:
     """Fetch all indexes; returns {label: DataFrame}."""
     results: Dict[str, pd.DataFrame] = {}

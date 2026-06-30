@@ -45,6 +45,7 @@ jobs:
           git add README.md data/market_data.db data/option_chain.db || true
           if ! git diff --cached --quiet; then
             git commit -m "chore: auto-update $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git pull --rebase origin main
             git push origin main
           else
             echo "Nothing to commit"
