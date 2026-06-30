@@ -180,7 +180,7 @@ def _is_market_hours(df: pd.DataFrame) -> pd.Series:
 def insert_data(db: str, symbol: str, df: pd.DataFrame) -> None:
     """
     Compute indicators and store all Mon-Fri 09:15-15:45 candles.
-    Uses INSERT OR IGNORE to avoid duplicates across runs.
+    Uses INSERT OR REPLACE to upsert — re-fetched candles overwrite stale rows.
     """
     from src.indicators import compute_indicators
     from src.signals import generate_signal
@@ -203,7 +203,7 @@ def insert_data(db: str, symbol: str, df: pd.DataFrame) -> None:
             df[col] = None
 
     sql = (
-        f"INSERT OR IGNORE INTO indexes ({', '.join(_MARKET_COLS)}) "
+        f"INSERT OR REPLACE INTO indexes ({', '.join(_MARKET_COLS)}) "
         f"VALUES ({', '.join(['?'] * len(_MARKET_COLS))})"
     )
     with sqlite3.connect(db) as conn:
