@@ -2,9 +2,10 @@
 import logging
 import time
 from datetime import datetime
-from typing import Dict, List
+from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
+import pytz
 import yfinance as yf
 from tvDatafeed import TvDatafeed
 
@@ -12,6 +13,69 @@ from src.tradingview_client import fetch_candles
 
 logger = logging.getLogger(__name__)
 
+_IST            = pytz.timezone("Asia/Kolkata")
+_MARKET_OPEN    = "09:15"
+_MARKET_CLOSE   = "15:45"
+_STALE_MINUTES  = 10   # discard TV data older than this during market hours
+
+
+# ── Helpers ────────────────────────────────────────────────────────────────────
+
+def _is_market_hours() -> bool:
+    """Return True if current IST time is Mon-Fri 09:15-15:45."""
+    now = datetime.now(_IST)
+    hhmm = now.strftime("%H:%M")
+    return now.weekday() < 5 and _MARKET_OPEN <= hhmm <= _MARKET_CLOSE
+
+
+def _candle_age_minutes(df: pd.DataFrame) -> Optional[int]:
+    """
+    Return age of the latest candle in minutes as a timezone-aware comparison.
+    Both sides are kept tz-aware (Asia/Kolkata) to avoid naive/aware mixing.
+    Returns None if the timestamp cannot be parsed.
+    """
+    try:
+        latest = pd.to_datetime(df["datetime"].max())
+        # Ensure latest is tz-aware in IST
+        if latest.tzinfo is None:
+            latest = latest.tz_localize(_IST)
+        else:
+            latest = latest.tz_convert(_IST)
+        now_ist = datetime.now(_IST)
+        age = (now_ist - latest).total_seconds() / 60
+        return int(age)
+    except Exception:
+        return None
+
+
+def _tv_candle_is_stale(df: pd.DataFrame, label: str) -> Tuple[bool, int]:
+    """
+    Check whether TradingView data should be discarded due to staleness.
+
+    Rules:
+    - Outside market hours: never stale (returns False, 0).
+    - During market hours: stale if latest candle is older than _STALE_MINUTES.
+
+    Returns (is_stale, age_in_minutes).
+    """
+    if not _is_market_hours():
+        return False, 0
+
+    age = _candle_age_minutes(df)
+    if age is None:
+        logger.warning("[%s] Could not determine candle age — keeping TV data", label)
+        return False, 0
+
+    latest_str = pd.to_datetime(df["datetime"].max()).strftime("%Y-%m-%d %H:%M")
+    logger.info("[%s] Latest TV candle = %s IST", label, latest_str)
+
+    if age > _STALE_MINUTES:
+        return True, age
+
+    return False, age
+
+
+# ── yfinance ───────────────────────────────────────────────────────────────────
 
 def _yf_download(ticker: str) -> pd.DataFrame:
     df = yf.download(ticker, period="5d", interval="1m", progress=False, auto_adjust=True)
@@ -49,51 +113,34 @@ def _yf_fallback(label: str, yf_ticker: str, vol_etf: str = "") -> pd.DataFrame:
         return pd.DataFrame()
 
 
-def _is_stale(df: pd.DataFrame, max_minutes: int = 30) -> bool:
-    """
-    Return True if the latest candle is older than max_minutes during market hours.
-    Only checked on weekdays between 09:15 and 15:45 IST.
-    """
-    try:
-        import pytz
-        IST = pytz.timezone("Asia/Kolkata")
-        now_ist = datetime.now(IST).replace(tzinfo=None)
-        hhmm = now_ist.strftime("%H:%M")
-        # Only flag stale during market hours — outside hours old data is expected
-        if not (now_ist.weekday() < 5 and "09:15" <= hhmm <= "15:45"):
-            return False
-        latest = pd.to_datetime(df["datetime"].max())
-        if hasattr(latest, "tzinfo") and latest.tzinfo is not None:
-            latest = latest.astimezone(IST).replace(tzinfo=None)
-        age = (now_ist - latest).total_seconds() / 60
-        return age > max_minutes
-    except Exception:
-        return False
-
+# ── Fetch index ────────────────────────────────────────────────────────────────
 
 def fetch_index(tv: TvDatafeed, cfg: Dict) -> pd.DataFrame:
-    label = cfg["label"]
+    label     = cfg["label"]
+    yf_ticker = cfg.get("yf_ticker", "")
+    vol_etf   = cfg.get("vol_etf", "")
 
     df = fetch_candles(tv, cfg["tv_symbol"], cfg["exchange"], label)
 
     if not df.empty:
-        logger.info("[%s] Latest candle = %s", label, df["datetime"].max())
-        if _is_stale(df):
+        stale, age = _tv_candle_is_stale(df, label)
+        if stale:
             logger.warning(
-                "[%s] TV data is stale (latest=%s) — discarding and falling back to yfinance",
-                label, df["datetime"].max(),
+                "[%s] TradingView data is %d minutes old. Falling back to yfinance.",
+                label, age,
             )
             df = pd.DataFrame()
 
-    if df.empty and cfg.get("yf_ticker"):
-        logger.info("[%s] Falling back to yfinance", label)
-        df = _yf_fallback(label, cfg["yf_ticker"], cfg.get("vol_etf", ""))
-
     if df.empty:
-        logger.warning("[%s] No data from any source", label)
+        if yf_ticker:
+            df = _yf_fallback(label, yf_ticker, vol_etf)
+        else:
+            logger.warning("[%s] No data from any source", label)
 
     return df
 
+
+# ── Fetch all ──────────────────────────────────────────────────────────────────
 
 def fetch_all(
     tv: TvDatafeed,
