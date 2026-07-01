@@ -1,23 +1,23 @@
-<!-- Auto-generated — 2026-07-01 09:32:24 IST -->
+<!-- Auto-generated — 2026-07-01 09:46:50 IST -->
 
-**Last updated:** 2026-07-01 09:32:24 IST
+**Last updated:** 2026-07-01 09:46:50 IST
 
 ## 📊 Market Indexes
 
 <table>
 <tr><th>Symbol</th><th>Time (IST)</th><th>Close</th><th>Volume</th><th>RSI(14)</th><th>EMA20</th><th>MACD</th><th>ATR</th><th>ADX</th><th>Signal</th></tr>
-<tr><td><b>NIFTY50</b></td><td>2026-07-01 09:30</td><td>23934.65</td><td>40,685</td><td>66.88</td><td>23912.52</td><td>9.35</td><td>11.69</td><td>36.05</td><td>🟢 BUY</td></tr>
-<tr><td><b>BANKNIFTY</b></td><td>2026-07-01 09:30</td><td>57558.35</td><td>1,771</td><td>49.12</td><td>57559.68</td><td>-10.34</td><td>42.69</td><td>13.20</td><td>🟡 HOLD</td></tr>
-<tr><td><b>SENSEX</b></td><td>2026-07-01 09:16</td><td>76631.70</td><td>19</td><td>77.53</td><td>76487.05</td><td>15.45</td><td>30.03</td><td>24.82</td><td>🟢 BUY</td></tr>
-<tr><td><b>MIDCAPNIFTY</b></td><td>2026-07-01 09:30</td><td>17681.10</td><td>2,707</td><td>69.49</td><td>17647.80</td><td>12.88</td><td>12.41</td><td>35.24</td><td>🟢 BUY</td></tr>
-<tr><td><b>FINNIFTY</b></td><td>2026-07-01 09:30</td><td>26558.55</td><td>886</td><td>49.50</td><td>26556.35</td><td>-9.06</td><td>18.55</td><td>20.38</td><td>🟡 HOLD</td></tr>
+<tr><td><b>NIFTY50</b></td><td>2026-07-01 09:44</td><td>23944.75</td><td>5,532</td><td>62.19</td><td>23929.48</td><td>8.77</td><td>10.84</td><td>37.01</td><td>🟡 HOLD</td></tr>
+<tr><td><b>BANKNIFTY</b></td><td>2026-07-01 09:44</td><td>57667.00</td><td>1,665</td><td>65.10</td><td>57592.19</td><td>19.35</td><td>36.81</td><td>16.32</td><td>🟡 HOLD</td></tr>
+<tr><td><b>SENSEX</b></td><td>2026-07-01 09:29</td><td>76677.75</td><td>561</td><td>64.61</td><td>76610.33</td><td>46.76</td><td>36.23</td><td>36.82</td><td>🟢 BUY</td></tr>
+<tr><td><b>MIDCAPNIFTY</b></td><td>2026-07-01 09:40</td><td>17657.10</td><td>1,958</td><td>50.19</td><td>17661.49</td><td>8.47</td><td>10.51</td><td>33.39</td><td>🟡 HOLD</td></tr>
+<tr><td><b>FINNIFTY</b></td><td>2026-07-01 09:43</td><td>26593.35</td><td>8</td><td>58.69</td><td>26575.29</td><td>7.54</td><td>15.84</td><td>15.36</td><td>🟡 HOLD</td></tr>
 </table>
 
 ---
 
 # 📋 Option Chain
 
-## 🔗 NIFTY50 Option Chain &nbsp; `Expiry: 07-Jul-2026` &nbsp; `Spot: 23929.45`
+## 🔗 NIFTY50 Option Chain &nbsp; `Expiry: 07-Jul-2026` &nbsp; `Spot: 23947.90`
 
 <table>
 <tr><th>CE OI</th><th>CE Vol</th><th>CE IV</th><th>CE LTP</th><th>CE Δ</th><th>Strike</th><th>PE Δ</th><th>PE LTP</th><th>PE IV</th><th>PE Vol</th><th>PE OI</th></tr>
@@ -123,7 +123,7 @@
 <tr><td>413,660</td><td>13,636</td><td>18.00</td><td>0.75</td><td>-</td><td><b>26300</b></td><td>-</td><td>2313.35</td><td>18.00</td><td>39</td><td>2,600</td></tr>
 </table>
 
-## 🔗 BANKNIFTY Option Chain &nbsp; `Expiry: 28-Jul-2026` &nbsp; `Spot: 57549.30`
+## 🔗 BANKNIFTY Option Chain &nbsp; `Expiry: 28-Jul-2026` &nbsp; `Spot: 57665.10`
 
 <table>
 <tr><th>CE OI</th><th>CE Vol</th><th>CE IV</th><th>CE LTP</th><th>CE Δ</th><th>Strike</th><th>PE Δ</th><th>PE LTP</th><th>PE IV</th><th>PE Vol</th><th>PE OI</th></tr>
@@ -230,9 +230,9 @@
 <tr><td>9,270</td><td>194</td><td>18.00</td><td>1398.85</td><td>-</td><td><b>57200</b></td><td>-</td><td>651.10</td><td>18.00</td><td>1,384</td><td>19,470</td></tr>
 <tr><td>9,840</td><td>461</td><td>18.00</td><td>1342.10</td><td>-</td><td><b>57300</b></td><td>-</td><td>682.50</td><td>18.00</td><td>1,355</td><td>17,820</td></tr>
 <tr><td>12,060</td><td>1,154</td><td>18.00</td><td>1277.55</td><td>-</td><td><b>57400</b></td><td>-</td><td>722.00</td><td>18.00</td><td>2,241</td><td>18,330</td></tr>
-<tr style="background:#fffde7;font-weight:bold;"><td>185,280</td><td>16,383</td><td>18.00</td><td>1216.10</td><td>-</td><td><b>57500</b>  ← ATM</td><td>-</td><td>763.10</td><td>18.00</td><td>18,575</td><td>225,090</td></tr>
+<tr><td>185,280</td><td>16,383</td><td>18.00</td><td>1216.10</td><td>-</td><td><b>57500</b></td><td>-</td><td>763.10</td><td>18.00</td><td>18,575</td><td>225,090</td></tr>
 <tr><td>41,100</td><td>6,242</td><td>18.00</td><td>1166.30</td><td>-</td><td><b>57600</b></td><td>-</td><td>800.35</td><td>18.00</td><td>6,202</td><td>36,780</td></tr>
-<tr><td>71,610</td><td>10,825</td><td>18.00</td><td>1109.65</td><td>-</td><td><b>57700</b></td><td>-</td><td>847.25</td><td>18.00</td><td>11,739</td><td>62,940</td></tr>
+<tr style="background:#fffde7;font-weight:bold;"><td>71,610</td><td>10,825</td><td>18.00</td><td>1109.65</td><td>-</td><td><b>57700</b>  ← ATM</td><td>-</td><td>847.25</td><td>18.00</td><td>11,739</td><td>62,940</td></tr>
 <tr><td>72,180</td><td>8,926</td><td>18.00</td><td>1052.25</td><td>-</td><td><b>57800</b></td><td>-</td><td>888.50</td><td>18.00</td><td>9,278</td><td>46,140</td></tr>
 <tr><td>43,800</td><td>4,579</td><td>18.00</td><td>994.15</td><td>-</td><td><b>57900</b></td><td>-</td><td>945.35</td><td>18.00</td><td>4,865</td><td>31,530</td></tr>
 <tr><td>1,207,200</td><td>58,529</td><td>18.00</td><td>946.60</td><td>-</td><td><b>58000</b></td><td>-</td><td>981.90</td><td>18.00</td><td>56,925</td><td>1,077,900</td></tr>
@@ -299,7 +299,7 @@
 <tr><td>39,900</td><td>2,448</td><td>18.00</td><td>6.60</td><td>-</td><td><b>65500</b></td><td>-</td><td>7407.80</td><td>18.00</td><td>150</td><td>7,950</td></tr>
 </table>
 
-## 🔗 FINNIFTY Option Chain &nbsp; `Expiry: 28-Jul-2026` &nbsp; `Spot: 26561.05`
+## 🔗 FINNIFTY Option Chain &nbsp; `Expiry: 28-Jul-2026` &nbsp; `Spot: 26591.95`
 
 <table>
 <tr><th>CE OI</th><th>CE Vol</th><th>CE IV</th><th>CE LTP</th><th>CE Δ</th><th>Strike</th><th>PE Δ</th><th>PE LTP</th><th>PE IV</th><th>PE Vol</th><th>PE OI</th></tr>
@@ -345,7 +345,7 @@
 <tr><td>0</td><td>0</td><td>18.00</td><td>1124.25</td><td>-</td><td><b>26300</b></td><td>-</td><td>1109.15</td><td>18.00</td><td>0</td><td>0</td></tr>
 <tr><td>0</td><td>0</td><td>18.00</td><td>1077.55</td><td>-</td><td><b>26400</b></td><td>-</td><td>1161.05</td><td>18.00</td><td>0</td><td>0</td></tr>
 <tr><td>1,800</td><td>24</td><td>18.00</td><td>652.25</td><td>-</td><td><b>26500</b></td><td>-</td><td>332.05</td><td>18.00</td><td>26</td><td>780</td></tr>
-<tr><td>1,560</td><td>108</td><td>18.00</td><td>583.60</td><td>-</td><td><b>26600</b></td><td>-</td><td>328.20</td><td>18.00</td><td>16</td><td>660</td></tr>
+<tr style="background:#fffde7;font-weight:bold;"><td>1,560</td><td>108</td><td>18.00</td><td>583.60</td><td>-</td><td><b>26600</b>  ← ATM</td><td>-</td><td>328.20</td><td>18.00</td><td>16</td><td>660</td></tr>
 <tr><td>0</td><td>0</td><td>18.00</td><td>945.70</td><td>-</td><td><b>26700</b></td><td>-</td><td>430.00</td><td>18.00</td><td>10</td><td>180</td></tr>
 <tr><td>0</td><td>0</td><td>18.00</td><td>904.45</td><td>-</td><td><b>26800</b></td><td>-</td><td>1382.20</td><td>18.00</td><td>0</td><td>0</td></tr>
 <tr><td>240</td><td>4</td><td>18.00</td><td>390.00</td><td>-</td><td><b>26900</b></td><td>-</td><td>1440.85</td><td>18.00</td><td>0</td><td>0</td></tr>
@@ -377,7 +377,7 @@
 <tr><td>0</td><td>0</td><td>18.00</td><td>163.65</td><td>-</td><td><b>30000</b></td><td>-</td><td>3795.45</td><td>18.00</td><td>0</td><td>0</td></tr>
 </table>
 
-## 🔗 MIDCAPNIFTY Option Chain &nbsp; `Expiry: 30-Jun-2026` &nbsp; `Spot: 17676.75`
+## 🔗 MIDCAPNIFTY Option Chain &nbsp; `Expiry: 30-Jun-2026` &nbsp; `Spot: 17660.70`
 
 <table>
 <tr><th>CE OI</th><th>CE Vol</th><th>CE IV</th><th>CE LTP</th><th>CE Δ</th><th>Strike</th><th>PE Δ</th><th>PE LTP</th><th>PE IV</th><th>PE Vol</th><th>PE OI</th></tr>
