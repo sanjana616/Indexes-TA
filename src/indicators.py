@@ -84,7 +84,7 @@ def compute_bollinger(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
+def compute_indicators(df: pd.DataFrame, db: str = "", symbol: str = "") -> pd.DataFrame:
     """Compute all indicators and return enriched DataFrame."""
     df = df.copy()
     c, h, l, v = df["close"], df["high"], df["low"], df["volume"]
@@ -154,4 +154,113 @@ def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
 
     df["price_change_pct"] = _safe(lambda: c.pct_change() * 100)
 
+    df = compute_pivots(df, db=db, symbol=symbol)
+
+    return df
+
+
+def _prev_day_ohlc_from_db(db: str, symbol: str, before_date: str):
+    """
+    Query the DB for the most recent trading day's H/L/C strictly before before_date.
+    Returns (high, low, close) or None if not found.
+    """
+    if not db or not symbol:
+        return None
+    try:
+        import sqlite3
+        with sqlite3.connect(db) as conn:
+            row = conn.execute(
+                """
+                SELECT MAX(high), MIN(low),
+                       close
+                FROM   indexes
+                WHERE  stock_name = ?
+                  AND  substr(datetime,1,10) = (
+                           SELECT MAX(substr(datetime,1,10))
+                           FROM   indexes
+                           WHERE  stock_name = ?
+                             AND  substr(datetime,1,10) < ?
+                       )
+                """,
+                (symbol, symbol, before_date),
+            ).fetchone()
+        if row and row[0] is not None:
+            # close = last candle of that day
+            with sqlite3.connect(db) as conn:
+                last = conn.execute(
+                    """
+                    SELECT close FROM indexes
+                    WHERE  stock_name = ?
+                      AND  substr(datetime,1,10) = (
+                               SELECT MAX(substr(datetime,1,10))
+                               FROM   indexes
+                               WHERE  stock_name = ?
+                                 AND  substr(datetime,1,10) < ?
+                           )
+                    ORDER  BY datetime DESC LIMIT 1
+                    """,
+                    (symbol, symbol, before_date),
+                ).fetchone()
+            return (row[0], row[1], last[0]) if last else None
+    except Exception:
+        logger.exception("_prev_day_ohlc_from_db failed for %s", symbol)
+    return None
+
+
+def compute_pivots(df: pd.DataFrame, db: str = "", symbol: str = "") -> pd.DataFrame:
+    """
+    Standard Pivot Point levels using the previous trading day's H, L, C.
+    When the first date in the DataFrame has no prior day in the batch,
+    falls back to querying the DB directly so no candle is left with NULL pivots.
+    """
+    try:
+        df = df.copy()
+        dt = pd.to_datetime(df["datetime"])
+        if dt.dt.tz is not None:
+            dt = dt.dt.tz_convert("Asia/Kolkata").dt.tz_localize(None)
+        df["_date"] = dt.dt.date
+
+        daily = (
+            df.groupby("_date")
+            .agg(d_high=("high", "max"), d_low=("low", "min"), d_close=("close", "last"))
+            .reset_index()
+            .sort_values("_date")
+        )
+
+        daily["prev_high"]  = daily["d_high"].shift(1)
+        daily["prev_low"]   = daily["d_low"].shift(1)
+        daily["prev_close"] = daily["d_close"].shift(1)
+
+        # Fill the first row's prev values from DB if available
+        if daily["prev_high"].isna().iloc[0]:
+            first_date = str(daily["_date"].iloc[0])
+            prev = _prev_day_ohlc_from_db(db, symbol, first_date)
+            if prev:
+                daily.loc[daily.index[0], "prev_high"]  = prev[0]
+                daily.loc[daily.index[0], "prev_low"]   = prev[1]
+                daily.loc[daily.index[0], "prev_close"] = prev[2]
+                logger.debug("[%s] Pivot seed from DB for first date %s", symbol, first_date)
+
+        ph = daily["prev_high"]
+        pl = daily["prev_low"]
+        pc = daily["prev_close"]
+
+        daily["pivot"]    = (ph + pl + pc) / 3
+        daily["pivot_r1"] = 2 * daily["pivot"] - pl
+        daily["pivot_r2"] = daily["pivot"] + (ph - pl)
+        daily["pivot_r3"] = ph + 2 * (daily["pivot"] - pl)
+        daily["pivot_s1"] = 2 * daily["pivot"] - ph
+        daily["pivot_s2"] = daily["pivot"] - (ph - pl)
+        daily["pivot_s3"] = pl - 2 * (ph - daily["pivot"])
+
+        pivot_cols = ["_date", "pivot", "pivot_r1", "pivot_r2", "pivot_r3",
+                      "pivot_s1", "pivot_s2", "pivot_s3"]
+        df = df.merge(daily[pivot_cols], on="_date", how="left")
+        df.drop(columns=["_date"], inplace=True)
+        logger.debug("Pivot levels computed for %d candles", len(df))
+    except Exception:
+        logger.exception("compute_pivots failed — pivot columns will be None")
+        for col in ("pivot", "pivot_r1", "pivot_r2", "pivot_r3",
+                    "pivot_s1", "pivot_s2", "pivot_s3"):
+            df[col] = None
     return df

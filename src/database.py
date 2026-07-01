@@ -37,6 +37,8 @@ _MARKET_COLS = [
     "obv", "cmf", "acc_dist", "mfi",
     "force_index", "eom", "vpt", "nvi", "vwap",
     "price_change_pct",
+    "pivot", "pivot_r1", "pivot_r2", "pivot_r3",
+    "pivot_s1", "pivot_s2", "pivot_s3",
     "signal", "updated_at",
 ]
 
@@ -67,6 +69,13 @@ CREATE TABLE IF NOT EXISTS indexes (
     obv REAL, cmf REAL, acc_dist REAL, mfi REAL,
     force_index REAL, eom REAL, vpt REAL, nvi REAL, vwap REAL,
     price_change_pct REAL,
+    pivot      REAL,
+    pivot_r1   REAL,
+    pivot_r2   REAL,
+    pivot_r3   REAL,
+    pivot_s1   REAL,
+    pivot_s2   REAL,
+    pivot_s3   REAL,
     signal TEXT, updated_at TEXT,
     PRIMARY KEY (datetime, stock_name)
 )
@@ -147,9 +156,16 @@ _MARKET_CLOSE = "15:45"
 
 
 def init_db(market_db: str, option_db: str) -> None:
-    """Create all tables if they don't exist."""
+    """Create all tables if they don't exist, and migrate pivot columns if needed."""
     with sqlite3.connect(market_db) as conn:
         conn.execute(_MARKET_DDL)
+        # Migrate: add pivot columns to existing databases that predate this feature
+        existing = {row[1] for row in conn.execute("PRAGMA table_info(indexes)")}
+        for col in ("pivot", "pivot_r1", "pivot_r2", "pivot_r3",
+                    "pivot_s1", "pivot_s2", "pivot_s3"):
+            if col not in existing:
+                conn.execute(f"ALTER TABLE indexes ADD COLUMN {col} REAL")
+                logger.info("Migrated: added column '%s' to indexes table", col)
         conn.commit()
     with sqlite3.connect(option_db) as conn:
         for table in _OC_TABLES.values():
@@ -185,7 +201,7 @@ def insert_data(db: str, symbol: str, df: pd.DataFrame) -> None:
     from src.indicators import compute_indicators
     from src.signals import generate_signal
 
-    df = compute_indicators(df.copy())
+    df = compute_indicators(df.copy(), db=db, symbol=symbol)
     df["stock_name"] = symbol
     df["datetime"]   = _to_ist_str(df["datetime"])
     df["volume"]     = df["volume"].fillna(0)
