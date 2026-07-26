@@ -1,8 +1,7 @@
 """
-main.py — Market data pipeline orchestrator.
+main.py — Option chain pipeline orchestrator.
 Run from project root: python -m src.main
 """
-import json
 import logging
 import os
 import sys
@@ -12,10 +11,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-MARKET_DB    = os.getenv("MARKET_DB",    "data/market_data.db")
-LOG_DIR      = os.getenv("LOG_DIR",      "data/logs")
-SYMBOLS_FILE = os.getenv("SYMBOLS_FILE", "config/symbols.json")
-README_FILE  = os.getenv("README_FILE",  "README.md")
+OPTION_DB    = os.getenv("OPTION_DB", "data/option_chain.db")
+LOG_DIR      = os.getenv("LOG_DIR",   "data/logs")
+
+_OPTION_SYMBOLS     = ["NIFTY50", "BANKNIFTY", "FINNIFTY", "MIDCAPNIFTY"]
+_BSE_OPTION_SYMBOLS = ["SENSEX"]
 
 os.makedirs(LOG_DIR, exist_ok=True)
 _fmt = logging.Formatter("%(asctime)s - %(levelname)s - %(name)s - %(message)s")
@@ -28,60 +28,104 @@ logger = logging.getLogger(__name__)
 
 import pytz
 from datetime import datetime as _dt
-from src.database           import init_db, insert_data
-from src.tradingview_client import get_tv
-from src.fetch_data         import fetch_all
-from src.readme_generator   import update_readme
+from src.database                 import init_db, insert_option_data, prune_old_option_data
+from src.option_chain.nse_scraper import get_expiry_dates, get_spot, _fetch_live_option_chain
+from src.option_chain.bse_scraper import get_sensex_expiry_dates, fetch_sensex_option_chain
 
 _IST = pytz.timezone("Asia/Kolkata")
 
 
-def _load_symbols():
-    with open(SYMBOLS_FILE, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    indexes = data.get("Indexes", [])
-    if not indexes:
-        raise ValueError("'Indexes' list is empty in symbols.json")
-    return indexes
+def _is_market_open() -> bool:
+    now = _dt.now(_IST)
+    if now.weekday() >= 5:
+        return False
+    hm = now.hour * 100 + now.minute
+    return 915 <= hm <= 1530  # NSE market: 9:15 AM - 3:30 PM IST
 
 
-def _needs_fetch(db: str, symbols: list) -> bool:
-    import sqlite3
-    import datetime
-    cutoff = (_dt.now(_IST) - datetime.timedelta(minutes=4)).strftime("%Y%m%d%H%M")
+def _fetch_option_chains() -> dict:
+    option_data = {}
+
+    for sym in _OPTION_SYMBOLS:
+        try:
+            spot     = get_spot(sym) or 0.0
+            expiries = get_expiry_dates(sym)[:4]
+            if not expiries:
+                logger.warning("[%s] No expiries found", sym)
+                continue
+
+            df_all  = _fetch_live_option_chain(sym, spot)
+            fetched = []
+            if not df_all.empty:
+                for expiry in expiries:
+                    df_exp = df_all[df_all["expiry"] == expiry].copy()
+                    if df_exp.empty:
+                        continue
+                    # Use spot from API response if get_spot() returned 0
+                    exp_spot = spot
+                    if exp_spot <= 0 and "spot" in df_exp.columns:
+                        api_spot = df_exp["spot"].dropna()
+                        if not api_spot.empty:
+                            exp_spot = float(api_spot.iloc[0])
+                            logger.info("[%s] using spot from API response: %.2f", sym, exp_spot)
+                    fetched.append((df_exp, expiry, exp_spot))
+                    logger.info("[%s] %s — %d rows (spot=%.2f)", sym, expiry, len(df_exp), exp_spot)
+            else:
+                logger.warning("[%s] Live API returned empty", sym)
+
+            if fetched:
+                option_data[sym] = fetched
+        except Exception:
+            logger.exception("[%s] Option chain fetch error", sym)
+
+    # BSE SENSEX
     try:
-        with sqlite3.connect(db) as conn:
-            row = conn.execute(
-                "SELECT datetime FROM indexes WHERE stock_name=? AND datetime >= ? LIMIT 1",
-                (symbols[0], cutoff)
-            ).fetchone()
-        return row is None
+        spot     = get_spot("SENSEX") or 0.0
+        expiries = get_sensex_expiry_dates()[:4]
+        fetched  = []
+        for expiry in expiries:
+            try:
+                df = fetch_sensex_option_chain(expiry, spot)
+                if df.empty:
+                    continue
+                # Use spot from API response if get_spot() returned 0
+                exp_spot = spot
+                if exp_spot <= 0 and "spot" in df.columns:
+                    api_spot = df["spot"].dropna()
+                    if not api_spot.empty:
+                        exp_spot = float(api_spot.iloc[0])
+                        logger.info("[SENSEX] using spot from API response: %.2f", exp_spot)
+                fetched.append((df, expiry, exp_spot))
+            except Exception:
+                logger.exception("[SENSEX] fetch error for expiry %s", expiry)
+        if fetched:
+            option_data["SENSEX"] = fetched
     except Exception:
-        return True
+        logger.exception("[SENSEX] Option chain fetch error")
+
+    return option_data
 
 
 def main() -> None:
-    logger.info("=== market-data pipeline starting ===")
+    logger.info("=== option-chain pipeline starting ===")
 
-    index_cfgs = _load_symbols()
-    init_db(MARKET_DB)
+    init_db(OPTION_DB)
 
-    symbol_labels = [c["label"] for c in index_cfgs]
-    if _needs_fetch(MARKET_DB, symbol_labels):
-        tv   = get_tv()
-        data = fetch_all(tv, index_cfgs)
-        for cfg in index_cfgs:
-            label = cfg["label"]
-            df    = data.get(label)
-            if df is not None and not df.empty:
-                try:
-                    insert_data(MARKET_DB, label, df)
-                except Exception:
-                    logger.exception("[%s] insert_data failed", label)
-    else:
-        logger.info("Market data already fresh — skipping fetch")
+    if not _is_market_open():
+        now = _dt.now(_IST)
+        logger.info("Skipping — %s %s IST (market closed)", now.strftime("%A"), now.strftime("%H:%M"))
+        return
 
-    update_readme(README_FILE, MARKET_DB, symbol_labels)
+    option_data = _fetch_option_chains()
+
+    for sym, fetched_list in option_data.items():
+        for df, expiry, spot in fetched_list:
+            try:
+                insert_option_data(OPTION_DB, sym, df, spot)
+            except Exception:
+                logger.exception("[%s] insert_option_data failed for expiry %s", sym, expiry)
+
+    prune_old_option_data(OPTION_DB, keep_days=14)
     logger.info("=== Cycle complete ===")
 
 
